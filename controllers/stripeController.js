@@ -32,10 +32,10 @@ async(req,res)=>{
    mode:"payment",
 
    success_url:
-   "http://localhost:5173/orders",
+   "https://smart-buy-frontend-liard.vercel.app/orders",
 
    cancel_url:
-   "http://localhost:5173/cart"
+   "https://smart-buy-frontend-liard.vercel.app/cart"
 
   });
 

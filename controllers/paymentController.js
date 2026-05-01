@@ -45,9 +45,9 @@ export const customerStripePayment = async (req, res) => {
       mode: "payment",
 
       // 🔥 IMPORTANT FIX (orderId safe pass)
-      success_url: `http://localhost:5173/order-success?orderId=${orderId}`,
+      success_url: `https://smart-buy-frontend-liard.vercel.app/order-success?orderId=${orderId}`,
 
-      cancel_url: "http://localhost:5173/order",
+      cancel_url: "https://smart-buy-frontend-liard.vercel.app",
     });
 
     return res.json({
