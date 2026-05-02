@@ -241,32 +241,24 @@ export const compareAmazon = async (req, res) => {
       });
     }
 
-    // 🔥 Better search query (important)
     const searchQuery = `${product.productName} India`;
 
     const amazon = await getAmazonProduct(searchQuery);
 
-    //  agar API se data nahi mila
-    if (!amazon || !amazon.price) {
-      return res.json({
-        success: true,
-        localPrice: product.price,
-        amazonPrice: null,
-        amazonLink: null,
-        message: "Amazon product not found"
-      });
-    }
-
-    // 🔥 FINAL RESPONSE
     res.json({
       success: true,
-      productName: product.productName,
-      localPrice: product.price,
 
-      amazonTitle: amazon.title,
-      amazonPrice: amazon.price,
-      amazonLink: amazon.link,
-      amazonImage: amazon.image
+      local: {
+        name: product.productName,
+        price: product.price
+      },
+
+      amazon: {
+        title: amazon?.title || null,
+        price: amazon?.price || null,
+        link: amazon?.link || null,
+        image: amazon?.image || null
+      }
     });
 
   } catch (error) {
