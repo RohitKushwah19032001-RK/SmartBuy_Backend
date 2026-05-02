@@ -43,7 +43,7 @@ export const addProduct = async (req, res) => {
     image: imageUrl,
 
     shopId: req.shopId,
-    shopName: shop.shopName, // ⭐ ADD SHOP NAME
+    shopName: shop.shopName, // ADD SHOP NAME
   });
 
   res.json({
@@ -133,7 +133,7 @@ export const deleteProduct = async (req, res) => {
 
 
 
-// GET ALL PRODUCTS (⭐ SHOP NAME POPULATE)
+// GET ALL PRODUCTS (SHOP NAME POPULATE)
 export const getAllProducts = async (req, res) => {
  try {
 
@@ -155,7 +155,7 @@ export const getAllProducts = async (req, res) => {
 
 
 
-// GET SINGLE PRODUCT (⭐ CATEGORY + SHOP NAME)
+// GET SINGLE PRODUCT (CATEGORY + SHOP NAME)
 export const getSingleProduct = async (req, res) => {
  try {
 
@@ -241,24 +241,32 @@ export const compareAmazon = async (req, res) => {
       });
     }
 
+    // 🔥 Better search query (important)
     const searchQuery = `${product.productName} India`;
 
     const amazon = await getAmazonProduct(searchQuery);
 
+    //  agar API se data nahi mila
+    if (!amazon || !amazon.price) {
+      return res.json({
+        success: true,
+        localPrice: product.price,
+        amazonPrice: null,
+        amazonLink: null,
+        message: "Amazon product not found"
+      });
+    }
+
+    // 🔥 FINAL RESPONSE
     res.json({
       success: true,
+      productName: product.productName,
+      localPrice: product.price,
 
-      local: {
-        name: product.productName,
-        price: product.price
-      },
-
-      amazon: {
-        title: amazon?.title || null,
-        price: amazon?.price || null,
-        link: amazon?.link || null,
-        image: amazon?.image || null
-      }
+      amazonTitle: amazon.title,
+      amazonPrice: amazon.price,
+      amazonLink: amazon.link,
+      amazonImage: amazon.image
     });
 
   } catch (error) {
